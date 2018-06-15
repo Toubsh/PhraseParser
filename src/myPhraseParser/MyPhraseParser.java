@@ -13,10 +13,9 @@ public class MyPhraseParser {
 
 	private static final String DEUTSCH = "Deutsch:";
 	private static final String ENGLISCH = "Englisch:";
-	private static final String REGEX_PATTERN = "";
 
 	private Scanner questioner = new Scanner(System.in);
-	private ArrayList<String> myPhrases = new ArrayList<String>();
+	private ArrayList<String> myPhrases = new ArrayList<>();
 	public int decideNewline = 0;
 
 	public void run() throws FileNotFoundException, IOException {
@@ -51,7 +50,7 @@ public class MyPhraseParser {
 		
 		BufferedReader br = new BufferedReader(new FileReader(userPath + file + ".txt"));
 		String myLine = br.readLine();
-
+		
 		while (myLine != null) {
 
 			myLine = br.readLine();
@@ -61,9 +60,8 @@ public class MyPhraseParser {
 				br.close();
 
 			} else if (myLine.contains(DEUTSCH) || myLine.contains(ENGLISCH)) {
-
-				// TODO Regex verwenden
-				myPhrases.add(myLine.replaceAll("^\\s+", ""));
+				
+				myPhrases.add(myLine.replaceAll("^\\s+(Deutsch:|Englisch:)\\W+", "").replace(",", "/"));
 				
 			}
 
@@ -165,7 +163,8 @@ public class MyPhraseParser {
 		
 		PrintWriter myCsv = new PrintWriter(new File(userPath + "myCsvPhrases.csv"));
 
-		// myCsv.write(myLine.toString().replaceAll("^\\s+", ""));
+		myCsv.write("Deutsch, Englisch\n");
+		
 		for (int i = 0; i < myPhrases.size(); i++) {
 			myCsv.write(myPhrases.get(i).toString().replaceAll("^\\s+", ""));
 
